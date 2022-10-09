@@ -16,12 +16,13 @@ import os
 load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SESSION_KEY']
-# app.secret_key = '' #Required for sessions to work (Flask-Login); set in .env
+# app.secret_key = '' #Required for sessions to work (Flask-Login); set in .env / Heroku config vars
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') #from Heroku config vars (Postgres)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
